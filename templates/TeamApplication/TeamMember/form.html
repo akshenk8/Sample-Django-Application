@@ -1,7 +1,32 @@
-<form method="post">{% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="{{ update_only|yesno:"Save,Create" }}">
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+
+{% block active_link %}nav-team{%endblock%}
+
+{% block content %}
     {% if update_only %}
-        <button><a href="{% url 'team:delete' form.instance.pk %}">Delete</a></button>
+        <h3> Edit team member </h3>
+        <h4><small class="text-muted">Edit contact info, location and role</small></h4>
+    {% else %}
+        <h3>Add a team member</h3>
+        <h4><small class="text-muted">Set email, location and role</small></h4>
     {% endif %}
-</form>
+    <hr/>
+
+    {% bootstrap_form_errors form %}
+    <form method="post">{% csrf_token %}
+        {% bootstrap_form form %}
+
+        {% if update_only %}
+            {% url 'team:delete' form.instance.pk as delete_url %}
+            {% bootstrap_button "Delete" button_type="link" href=delete_url button_class="btn-danger" %}
+        {% endif %}
+
+        {% if update_only %}
+            {% bootstrap_button "Save" button_type="submit" button_class="btn-primary" %}
+        {% else %}
+            {% bootstrap_button "Create" button_type="submit" button_class="btn-primary" %}
+        {% endif %}
+
+    </form>
+{% endblock %}

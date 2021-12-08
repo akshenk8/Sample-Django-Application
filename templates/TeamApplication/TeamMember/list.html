@@ -1,7 +1,32 @@
-<a href="{% url 'team:add' %}">Add new</a>
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% load static %}
 
-<ul>
+{% block active_link %}nav-team{% endblock %}
+
+{% block content %}
+    {% url 'team:add' as add_url %}
+    {% bootstrap_button "Add New" button_type="link" href=add_url button_class="btn-primary" %}
+
+    <h3> Team Members </h3>
+    <h4><small class="text-muted">You have {{ members|length }} team member(s).</small></h4>
+    <hr/>
+
     {% for member in members %}
-        <li><a href="{% url 'team:detail' member.id %}">{{ member.first_name }}</a></li>
+        <a href="{% url 'team:detail' member.id %}" style="text-decoration: none">
+            <div style="display: flex; flex-direction: row; cursor: pointer">
+                <div>
+                    <img src="{% static 'img/account-circle.png' %}" alt="profile-pic">
+                </div>
+                <div>
+                    {{ member.last_name }} {{ member.first_name }} {% if member.is_admin %} (admin) {% endif %} <br/>
+                    <small class="text-muted">
+                        {{ member.mobile_number }} <br/>
+                        {{ member.email_id }}
+                    </small>
+                </div>
+            </div>
+        </a>
+        <hr/>
     {% endfor %}
-</ul>
+{% endblock %}

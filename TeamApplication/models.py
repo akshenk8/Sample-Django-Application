@@ -18,3 +18,6 @@ class TeamMember(models.Model):
     mobile_number = models.CharField(max_length=15, help_text="Please use the following format: <em>XXX-XXX-XXXX</em>.")
     role = models.CharField(max_length=10, choices=TeamMemberRoles.choices, default=TeamMemberRoles.REGULAR)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def is_admin(self):
+        return self.role == TeamMemberRoles.ADMIN
