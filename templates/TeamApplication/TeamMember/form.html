@@ -1,0 +1,7 @@
+<form method="post">{% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="{{ update_only|yesno:"Save,Create" }}">
+    {% if update_only %}
+        <button><a href="{% url 'team:delete' form.instance.pk %}">Delete</a></button>
+    {% endif %}
+</form>

@@ -1,0 +1,7 @@
+<a href="{% url 'team:add' %}">Add new</a>
+
+<ul>
+    {% for member in members %}
+        <li><a href="{% url 'team:detail' member.id %}">{{ member.first_name }}</a></li>
+    {% endfor %}
+</ul>
