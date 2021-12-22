@@ -55,8 +55,5 @@ class TeamMemberDeleteView(LoginRequiredMixin, DeleteView):
     form_class = TeamMemberForm
     success_url = reverse_lazy('team:index')
 
-    def get(self, request, *args, **kwargs):
-        return self.delete(request, *args, **kwargs)
-
     def get_queryset(self):
         return self.model.objects.filter(user=self.request.user)

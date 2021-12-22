@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load bootstrap4 %}
 
-{% block active_link %}nav-team{%endblock%}
+{% block active_link %}nav-team{% endblock %}
 
 {% block content %}
     {% if update_only %}
@@ -14,19 +14,20 @@
     <hr/>
 
     {% bootstrap_form_errors form %}
-    <form method="post">{% csrf_token %}
+    <form method="post" style="display: inline;">{% csrf_token %}
         {% bootstrap_form form %}
-
-        {% if update_only %}
-            {% url 'team:delete' form.instance.pk as delete_url %}
-            {% bootstrap_button "Delete" button_type="link" href=delete_url button_class="btn-danger" %}
-        {% endif %}
 
         {% if update_only %}
             {% bootstrap_button "Save" button_type="submit" button_class="btn-primary" %}
         {% else %}
             {% bootstrap_button "Create" button_type="submit" button_class="btn-primary" %}
         {% endif %}
-
     </form>
+    {% if update_only %}
+        {% url 'team:delete' form.instance.pk as delete_url %}
+        <form method="post" action="{{ delete_url }}" style="display: inline;">
+            {% csrf_token %}
+            {% bootstrap_button "Delete" button_type="submit" button_class="btn-danger" %}
+        </form>
+    {% endif %}
 {% endblock %}
